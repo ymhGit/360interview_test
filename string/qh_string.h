@@ -1,6 +1,7 @@
 #ifndef QIHOO_STRING_H_
 #define QIHOO_STRING_H_
 
+#include <iostream>
 #include <stdlib.h>
 
 namespace qh
@@ -24,13 +25,34 @@ namespace qh
         const char* c_str() const;
 
         // set & get
-        char* operator[](size_t index);
 
+        //old
+        //char* operator[](size_t index);
+        
+        //new
+        char& operator[](size_t index);
+        
+        
+        //operator
+        bool operator == (const string& rhs);
+        bool operator != (const string& rhs);
+        bool operator < (const string& rhs);
+        bool operator <= (const string& rhs);
+        bool operator > (const string& rhs);
+        bool operator >= (const string& rhs);
+        string operator + (const string& rhs);
+        string& operator += (const string& rhs);
+        
+        friend std::istream& operator >> (std::istream & is , string &str);
+        friend std::ostream& operator << (std::ostream & os , string &str);
     private:
         char*  data_;
         size_t len_;
     };
 }
+
+
+
 
 #endif
 
