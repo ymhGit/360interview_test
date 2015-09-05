@@ -1,25 +1,29 @@
 #ifndef QIHOO_INI_PARSER_H_
 #define QIHOO_INI_PARSER_H_
 
+#include <fstream>
+#include <map>
+#include <list>
 #include <string>
 
 namespace qh
 {
+    using namespace std;
     class INIParser
     {
     public:
-        INIParser();
-        ~INIParser();
-
-        //! \brief ½âÎöÒ»¸ö´ÅÅÌÉÏµÄINIÎÄ¼ş
+        INIParser(){};
+        ~INIParser(){};
+        
+        //! \brief è§£æä¸€ä¸ªç£ç›˜ä¸Šçš„INIæ–‡ä»¶
         //! \param[in] - const std::string & ini_file_path
         //! \return - bool
         bool Parse(const std::string& ini_file_path);
-
-        //! \brief ½âÎöÒ»¶ÎĞÎÈçINI¸ñÊ½µÄÄÚ´æÊı¾İ¡£
-        //!   ÀıÈç£ºini_data="a:1||b:2||c:3"
-        //!         µ÷ÓÃ<code>Parse(ini_data, ini_data_len, "||", ":")</code>¼´¿É½âÎö³öÕâ¶ÎÊı¾İ¡£
-        //!         ½âÎöÍê±ÏÖ®ºó 
+        
+        //! \brief è§£æä¸€æ®µå½¢å¦‚INIæ ¼å¼çš„å†…å­˜æ•°æ®ã€‚
+        //!   ä¾‹å¦‚ï¼šini_data="a:1||b:2||c:3"
+        //!         è°ƒç”¨<code>Parse(ini_data, ini_data_len, "||", ":")</code>å³å¯è§£æå‡ºè¿™æ®µæ•°æ®ã€‚
+        //!         è§£æå®Œæ¯•ä¹‹å
         //!         Get("a")=="1" && Get("b")=="2" && Get("c")=="3"
         //! \param[in] - const char * ini_data
         //! \param[in] - size_t ini_data
@@ -27,16 +31,21 @@ namespace qh
         //! \param[in] - const std::string & key_value_seperator
         //! \return - bool
         bool Parse(const char* ini_data, size_t ini_data_len, const std::string& line_seperator = "\n", const std::string& key_value_seperator = "=");
-
-        //! \brief ´ÓÄ¬ÈÏsectionÖĞ²éÕÒÄ³¸ökey£¬²¢·µ»ØÕÒµ½µÄvalue¡£Èç¹ûÕÒ²»µ½£¬·µ»ØÒ»¸ö¿Õ´®
+        
+        //! \brief ä»é»˜è®¤sectionä¸­æŸ¥æ‰¾æŸä¸ªkeyï¼Œå¹¶è¿”å›æ‰¾åˆ°çš„valueã€‚å¦‚æœæ‰¾ä¸åˆ°ï¼Œè¿”å›ä¸€ä¸ªç©ºä¸²
         //! \param[in] - const std::string & key
-        //! \param[in] - bool * found - Êä³ö²ÎÊı£¬true±íÃ÷ÕÒµ½Õâ¸ökey
-        //! \return - const std::string& - ·µ»ØµÄ¾ßÌåkey¶ÔÓ¦µÄvalue
+        //! \param[in] - bool * found - è¾“å‡ºå‚æ•°ï¼Œtrueè¡¨æ˜æ‰¾åˆ°è¿™ä¸ªkey
+        //! \return - const std::string& - è¿”å›çš„å…·ä½“keyå¯¹åº”çš„value
         const std::string& Get(const std::string& key, bool* found);
-
+        
         const std::string& Get(const std::string& section, const std::string& key, bool* found);
-
+        
+        bool IsLetter(char& c);
+        bool IsDigital(char& c);
+        bool IsIdentifier(char& c);
+        
     private:
+        map<string , string> keyValueMap;
     };
 }
 
